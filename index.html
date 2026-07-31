@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faces of Cuyahoga County — Concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orient:#005587;--fun-green:#00843D;--persian-red:#CB2C30;--flush-orange:#FF8200;
+  --prussian-blue:#00304C;--white:#fff;--ink:#16232B;--ink-soft:#54636E;--rule:#DCE3E8;--wash:#F2F5F7;
+  --font:"Open Sans",Arial,sans-serif;--ease:cubic-bezier(.22,.61,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--wash);line-height:1.55;-webkit-font-smoothing:antialiased;}
+.hero{background:var(--prussian-blue);color:var(--white);padding:clamp(40px,7vw,80px) clamp(20px,5vw,64px) clamp(34px,5vw,56px);}
+.band{display:flex;height:6px;width:220px;margin-bottom:24px;border-radius:1px;overflow:hidden;}
+.band span{flex:1;}
+.band span:nth-child(1){background:var(--orient);}.band span:nth-child(2){background:var(--fun-green);}
+.band span:nth-child(3){background:var(--flush-orange);}.band span:nth-child(4){background:var(--persian-red);}
+.hero h1{margin:0 0 12px;font-size:clamp(2rem,6vw,3.4rem);font-weight:800;letter-spacing:-.025em;line-height:1.02;}
+.hero p{margin:0;max-width:56ch;font-weight:300;font-size:clamp(1.05rem,2.2vw,1.25rem);color:#CFE0EA;}
+.wrap{max-width:1180px;margin:0 auto;padding:clamp(32px,5vw,56px) clamp(20px,4vw,48px);}
+.grid{display:grid;gap:20px;grid-template-columns:1fr;}
+@media(min-width:680px){.grid{grid-template-columns:1fr 1fr;}}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr);}}
+.opt{display:flex;flex-direction:column;background:var(--white);border:2px solid var(--rule);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease);}
+.opt:hover{transform:translateY(-4px);border-color:var(--prussian-blue);box-shadow:0 20px 40px -24px rgba(0,48,76,.5);}
+.opt .top{height:8px;display:flex;}
+.opt .top span{flex:1;}
+.opt .top span:nth-child(1){background:var(--orient);}.opt .top span:nth-child(2){background:var(--fun-green);}
+.opt .top span:nth-child(3){background:var(--flush-orange);}.opt .top span:nth-child(4){background:var(--persian-red);}
+.opt .body{padding:clamp(22px,3vw,30px);flex:1;display:flex;flex-direction:column;}
+.opt .k{font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--flush-orange);}
+.opt h2{margin:8px 0 10px;font-size:clamp(1.35rem,2.6vw,1.7rem);font-weight:800;letter-spacing:-.015em;}
+.opt p{margin:0 0 18px;color:var(--ink-soft);font-weight:300;font-size:.98rem;}
+.opt .feat{margin:0 0 22px;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px;}
+.opt .feat li{font-size:.9rem;color:var(--ink);display:flex;align-items:flex-start;gap:9px;}
+.opt .feat li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--fun-green);margin-top:7px;flex:0 0 auto;}
+.opt .go{margin-top:auto;display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--prussian-blue);}
+.opt .go svg{transition:transform .2s var(--ease);}
+.opt:hover .go svg{transform:translateX(4px);}
+.extra{margin-top:24px;background:var(--white);border:2px solid var(--rule);border-radius:14px;padding:20px 24px;}
+.extra a{color:var(--orient);font-weight:700;text-decoration:none;}
+.extra a:hover{text-decoration:underline;}
+.note{margin-top:20px;color:var(--ink-soft);font-size:.9rem;font-weight:300;}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="band" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+  <h1>Faces of Cuyahoga County</h1>
+  <p>An employee profile section for the new HR website. Three design directions to compare — open each and see which feels right.</p>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+    <a class="opt" href="full.html">
+      <div class="top" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+      <div class="body">
+        <div class="k">Option 1</div>
+        <h2>Full</h2>
+        <p>The complete concept: a large branded header, an intro line, and filters so visitors can browse employees by department.</p>
+        <ul class="feat">
+          <li>Big "Faces of Cuyahoga" hero with intro text</li>
+          <li>Filter chips for each job group</li>
+          <li>A short quote on every card</li>
+        </ul>
+        <span class="go">View Option 1
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M10 1l5 5-5 5M15 6H1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <a class="opt" href="simple.html">
+      <div class="top" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+      <div class="body">
+        <div class="k">Option 2</div>
+        <h2>Simple</h2>
+        <p>A streamlined version meant to sit lower on a page: a slim banner, just the photos and names, and a hiring call-to-action at the end.</p>
+        <ul class="feat">
+          <li>Thin header — fits below other content</li>
+          <li>No filters, no quotes: photos and names only</li>
+          <li>"Your face could be here" careers prompt</li>
+        </ul>
+        <span class="go">View Option 2
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M10 1l5 5-5 5M15 6H1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </a>
+
+    <a class="opt" href="roster.html">
+      <div class="top" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+      <div class="body">
+        <div class="k">Option 3</div>
+        <h2>Roster</h2>
+        <p>A big spotlight photo beside a browsable list of everyone, grouped by department. Pick a name and their photo and quote take over the stage.</p>
+        <ul class="feat">
+          <li>Large spotlight photo, one person at a time</li>
+          <li>Full name list on the right, grouped by department</li>
+          <li>Ends with a careers call-to-action</li>
+        </ul>
+        <span class="go">View Option 3
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M10 1l5 5-5 5M15 6H1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </a>
+  </div>
+
+  <div class="extra">
+    Also in progress: an animated <a href="hiring/">hiring-process graphic</a> that shows applicants how county hiring works, from apply to offer.
+  </div>
+
+  <p class="note">Prototype for review. Content and photos are current but not final; the live site will be built in the county's CMS.</p>
+</div>
+</body>
+</html>

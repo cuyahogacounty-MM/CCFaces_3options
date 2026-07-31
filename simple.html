@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faces of Cuyahoga — Cuyahoga County</title>
+<meta name="description" content="Meet the people who work for Cuyahoga County, across every kind of job the county offers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Faces of Cuyahoga — prototype styles
+   Palette and typefaces derived from the Cuyahoga County Style Guide.
+
+   Colour system note: the county seal has four quadrants — waves, oak leaf,
+   bridge, heartbeat — in blue, green, orange and red. This section uses those
+   four as job-family colours, so the grid of people reads as the seal taken
+   apart. Bright brand colours are used as GRAPHIC elements only. Where a
+   colour has to carry text, a darker sibling from the extended palette is
+   substituted so contrast clears WCAG 2.1 AA.
+   ========================================================================== */
+
+:root {
+  /* Core web palette (style guide, "Colors for Web / Screen Use only") */
+  --orient:        #005587;
+  --fun-green:     #00843D;
+  --persian-red:   #CB2C30;
+  --flush-orange:  #FF8200;
+  --white:         #FFFFFF;
+
+  /* Extended palette — used for text-bearing surfaces where the bright
+     versions fail contrast. #FF8200 on white is ~2.3:1 and must never
+     carry body text. */
+  --prussian-blue: #00304C;
+  --allports:      #006AA9;
+  --brown:         #9B5000;   /* orange family, text-safe on white */
+  --tamarillo:     #A31519;   /* red family, text-safe on white */
+  --kaitoke-green: #004D24;   /* green family, text-safe on white */
+
+  /* Derived neutrals — not in the guide, kept cool so they sit under Orient */
+  --ink:           #16232B;
+  --ink-soft:      #4A5A66;
+  --rule:          #DCE3E8;
+  --wash:          #F2F5F7;
+
+  --font: "Open Sans", Arial, Helvetica, sans-serif;
+
+  --shell: 1180px;
+  --gutter: clamp(20px, 5vw, 56px);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Job-family theming. Each card sets --accent / --accent-text from its family. */
+[data-family="hhs"]    { --accent: var(--fun-green);    --accent-text: var(--kaitoke-green); }
+[data-family="safety"] { --accent: var(--persian-red);  --accent-text: var(--tamarillo); }
+[data-family="works"]  { --accent: var(--flush-orange); --accent-text: var(--brown); }
+[data-family="fiscal"] { --accent: var(--orient);       --accent-text: var(--orient); }
+[data-family="dev"]    { --accent: var(--prussian-blue); --accent-text: var(--prussian-blue); }
+
+/* --------------------------------------------------------------- reset -- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--allports);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.shell {
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------------------------------------------------------------- hero -- */
+
+.hero {
+  background: var(--prussian-blue);
+  color: var(--white);
+  padding-block: clamp(56px, 11vw, 104px) clamp(40px, 8vw, 72px);
+}
+
+/* Slim variant: a thin banner meant to sit BELOW other page content, not as
+   the top of the page. Much less vertical padding, smaller headline, no
+   subtitle. The colour bar sits just above the title. */
+.hero-slim {
+  padding-block: clamp(22px, 4vw, 34px);
+}
+.hero-slim .quadrant-band {
+  height: 6px;
+  width: min(260px, 54vw);
+  margin-bottom: clamp(14px, 2.5vw, 20px);
+}
+.hero-slim h1 {
+  font-size: clamp(1.6rem, 4.4vw, 2.6rem);
+}
+
+/* The signature moment: the seal's four quadrants unrolled into a band.
+   Segments sweep out on load, left to right. */
+.quadrant-band {
+  display: flex;
+  height: 8px;
+  width: min(340px, 62vw);
+  margin-bottom: clamp(28px, 5vw, 40px);
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.quadrant-band span {
+  flex: 1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: sweep 620ms var(--ease) forwards;
+}
+
+.quadrant-band span:nth-child(1) { background: var(--orient);       animation-delay:   0ms; }
+.quadrant-band span:nth-child(2) { background: var(--fun-green);    animation-delay: 110ms; }
+.quadrant-band span:nth-child(3) { background: var(--flush-orange); animation-delay: 220ms; }
+.quadrant-band span:nth-child(4) { background: var(--persian-red);  animation-delay: 330ms; }
+
+@keyframes sweep { to { transform: scaleX(1); } }
+
+.hero h1,
+.hero p {
+  opacity: 0;
+  transform: translateY(22px);
+}
+
+body.ready .hero h1,
+body.ready .hero p {
+  opacity: 1;
+  transform: none;
+  transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+}
+
+body.ready .hero h1 { transition-delay: 260ms; }
+body.ready .hero h1 em { transition-delay: 380ms; }
+body.ready .hero p  { transition-delay: 480ms; }
+
+.hero h1 em {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+body.ready .hero h1 em {
+  opacity: 1;
+  transform: none;
+  transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+}
+
+.hero h1 {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(2.4rem, 7.2vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+}
+
+.hero h1 em {
+  display: block;
+  font-style: normal;
+  font-weight: 300;
+  color: #9FC4DA;
+}
+
+.hero p {
+  max-width: 46ch;
+  margin: clamp(20px, 3vw, 28px) 0 0;
+  font-size: clamp(1rem, 2.4vw, 1.16rem);
+  font-weight: 300;
+  color: #CFE0EA;
+}
+
+/* ------------------------------------------------------------- filters -- */
+
+.filters {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.filters-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-block: 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filters-inner::-webkit-scrollbar { display: none; }
+
+/* Sliding indicator behind the chips. */
+.pill {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  height: 46px;
+  border-radius: 999px;
+  background: var(--prussian-blue);
+  transition: transform 420ms var(--ease), width 420ms var(--ease);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.chip {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 17px;
+  min-height: 44px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--white);
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 180ms var(--ease), background-color 180ms var(--ease);
+}
+
+.chip .dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--accent, var(--ink-soft));
+}
+
+.chip:hover { border-color: var(--ink-soft); }
+
+.chip[aria-pressed="true"] {
+  background: transparent;
+  border-color: transparent;
+  color: var(--white);
+}
+
+.chip .dot { transition: transform 320ms var(--ease); }
+.chip:hover .dot { transform: scale(1.45); }
+
+/* ---------------------------------------------------------------- grid -- */
+
+.roster { padding-block: clamp(36px, 7vw, 64px) clamp(56px, 10vw, 96px); }
+
+.count {
+  margin: 0 0 clamp(20px, 4vw, 32px);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.grid {
+  transition: opacity 190ms var(--ease);
+  display: grid;
+  gap: clamp(20px, 3.2vw, 34px);
+  grid-template-columns: 1fr;
+}
+
+/* Outgoing set drops away before the new one staggers in. */
+.grid.is-swapping { opacity: 0; transform: translateY(6px); }
+
+@media (min-width: 620px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* ---------------------------------------------------------------- card -- */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--white);
+  text-align: left;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: border-color 220ms var(--ease), box-shadow 220ms var(--ease);
+}
+
+.card.is-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 520ms var(--ease),
+    transform 520ms var(--ease),
+    border-color 220ms var(--ease),
+    box-shadow 220ms var(--ease);
+  transition-delay: var(--stagger, 0ms), var(--stagger, 0ms), 0ms, 0ms;
+}
+
+.card.is-settled { transition-delay: 0ms; }
+
+.card.is-settled:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  box-shadow: 0 20px 40px -22px rgba(0, 48, 76, 0.55);
+}
+
+/* photo ------------------------------------------------------------------ */
+
+.photo {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--wash);
+}
+
+.photo-zoom {
+  position: absolute;
+  inset: 0;
+  transform: scale(1.001);
+  transition: transform 700ms var(--ease);
+}
+
+/* Slightly oversized so the scroll drift never exposes an edge. */
+.photo img {
+  position: absolute;
+  top: -3%;
+  left: 0;
+  width: 100%;
+  height: 106%;
+  object-fit: cover;
+  object-position: center 22%;
+  will-change: transform;
+}
+
+.card:hover .photo-zoom { transform: scale(1.05); }
+
+/* Micro-animation: a quadrant-coloured wedge sweeps up from the lower left,
+   echoing the angled divisions of the seal. Sits under the text plate. */
+.photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top right,
+    var(--accent) 0%,
+    color-mix(in srgb, var(--accent) 62%, transparent) 24%,
+    transparent 46%
+  );
+  opacity: 0;
+  transform: translateY(30%);
+  transition: opacity 420ms var(--ease), transform 520ms var(--ease);
+  pointer-events: none;
+}
+
+.card:hover .photo::after { opacity: 0.42; transform: none; }
+
+/* The rule under the photo grows to full width on hover. */
+.photo::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 5px;
+  background: var(--accent);
+  transform: scaleX(0.22);
+  transform-origin: left center;
+  transition: transform 460ms var(--ease);
+  z-index: 2;
+}
+
+.card:hover .photo::before { transform: scaleX(1); }
+
+/* body ------------------------------------------------------------------- */
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 22px 24px;
+  flex: 1;
+}
+
+.card .dept {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.card .dept .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: 0 0 auto;
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 1.22rem;
+  font-weight: 800;
+  letter-spacing: -0.012em;
+  line-height: 1.22;
+}
+
+.card .title {
+  margin: -8px 0 0;
+  font-size: 0.94rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+/* The pull quote is the second memorable element — light weight, large,
+   with the person's own phrasing rather than HR copy. */
+.card blockquote {
+  margin: 4px 0 0;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  font-size: 1.02rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.card blockquote::before {
+  content: "\201C";
+  display: inline-block;
+  color: var(--accent);
+  font-weight: 800;
+  margin-right: 2px;
+  transform: scale(0.5);
+  opacity: 0;
+  transition: transform 420ms var(--ease), opacity 420ms var(--ease);
+  transition-delay: 380ms;
+}
+
+.card.is-in blockquote::before { transform: scale(1); opacity: 1; }
+
+.card blockquote::after {
+  content: "\201D";
+  color: var(--accent);
+  font-weight: 800;
+  margin-left: 2px;
+  opacity: 0;
+  transition: opacity 420ms var(--ease);
+  transition-delay: 460ms;
+}
+
+.card.is-in blockquote::after { opacity: 1; }
+
+/* The department rule ticks outward as the card arrives. */
+.card .dept .dot {
+  transform: scale(0.4);
+  transition: transform 420ms var(--ease);
+  transition-delay: 300ms;
+}
+
+.card.is-in .dept .dot { transform: scale(1); }
+
+/* ------------------------------------------------------------ cta bar -- */
+
+.cta-bar {
+  background: var(--prussian-blue);
+  color: var(--white);
+  text-align: center;
+  padding-block: clamp(48px, 8vw, 84px);
+}
+.cta-bar h2 {
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 6vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+.cta-bar p {
+  margin: 0 auto clamp(26px, 4vw, 36px);
+  max-width: 40ch;
+  font-weight: 300;
+  font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+  color: #CFE0EA;
+}
+.cta-btn {
+  display: inline-block;
+  background: var(--flush-orange);
+  color: var(--white);
+  font-weight: 700;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  padding: 16px 40px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform 200ms var(--ease), background-color 200ms var(--ease);
+}
+.cta-btn:hover { background: #ff9526; transform: translateY(-2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-btn:hover { transform: none; }
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .quadrant-band span { transform: scaleX(1); }
+  .card { opacity: 1; transform: none; }
+  .photo::before { transform: scaleX(1); }
+  .photo img { transform: none !important; }
+  .hero h1, .hero h1 em, .hero p { opacity: 1; transform: none; }
+  .card blockquote::before,
+  .card .dept .dot { opacity: 1; transform: scale(1); }
+  .grid.is-swapping { opacity: 1; transform: none; }
+}
+
+</style>
+</head>
+<body>
+<section class="hero hero-slim">
+  <div class="shell">
+    <div class="quadrant-band" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <h1>Faces of Cuyahoga County</h1>
+  </div>
+</section>
+
+<main class="roster">
+  <div class="shell">
+    <div class="grid" id="grid"></div>
+  </div>
+</main>
+
+<section class="cta-bar">
+  <div class="shell">
+    <h2>Your face could be here.</h2>
+    <p>Cuyahoga County is hiring. Find work that matters.</p>
+    <a class="cta-btn" href="#">Explore Careers at Cuyahoga County</a>
+  </div>
+</section>
+
+
+<script>
+/* ==========================================================================
+   Faces of Cuyahoga — prototype behaviour
+
+   Cards are display only. Each carries one short line in the employee's own
+   words. Motion is layered so it works on touch as well as with a mouse:
+   scroll-driven movement is the primary layer, hover is an enhancement.
+
+   TO SWAP IN REAL PHOTOS: set `photo` on each person to an image path or URL.
+   Leave it empty and an initials placeholder is drawn instead, so the layout
+   never shows a broken image while you are waiting on assets or approvals.
+   ========================================================================== */
+
+const FAMILIES = {
+  hhs:      { label: "Health & Human Services", color: "#00843D" },
+  safety:   { label: "Public Safety & Justice", color: "#CB2C30" },
+  works:    { label: "Public Works",            color: "#FF8200" },
+  fiscal:   { label: "Fiscal & Administration", color: "#005587" },
+  dev:      { label: "Sustainability and Development", color: "#00304C" }
+};
+
+const PEOPLE = [
+  {
+    name: "Emanuel J. Bradfield",
+    title: "Corrections Officer, Corporal",
+    department: "Sheriff",
+    family: "safety",
+    photo: "photos/emanuel-bradfield.jpg",
+    pull: "You feel more like family than colleagues.",
+  },
+  {
+    name: "Kelly M. Marton, P.E., P.S.",
+    title: "Engineer 4 — Planning",
+    department: "Public Works",
+    family: "works",
+    photo: "photos/kelly-marton.jpg",
+    pull: "I work on projects that help shape the county's future.",
+  },
+  {
+    name: "Shaena Taylor",
+    title: "Drug Chemistry Supervisor",
+    department: "Regional Forensic Science Laboratory",
+    family: "safety",
+    photo: "photos/shaena-taylor.jpg",
+    pull: "Every day brings a new opportunity to challenge myself.",
+  },
+  {
+    name: "Jose Rivera-Ortiz",
+    title: "Supervisor",
+    department: "Animal Shelter",
+    family: "dev",
+    photo: "photos/jose-rivera-ortiz.jpg",
+    pull: "The work we do truly matters.",
+  },
+  {
+    name: "Markeith Brooks",
+    title: "Administrator, MIPC",
+    department: "Job & Family Services",
+    family: "hhs",
+    photo: "photos/markeith-brooks.jpg",
+    pull: "Unparalleled opportunities to make a tangible difference.",
+  },
+  {
+    name: "Mary Thomas",
+    title: "Manager, Accounts Payable",
+    // TODO: department listed as TBD in the source document — confirm with HR.
+    department: "Fiscal Office",
+    family: "fiscal",
+    photo: "photos/mary-thomas.jpg",
+    pull: "Develop team leadership and problem-solving skills.",
+  },
+  {
+    name: "Tamika Pearson",
+    title: "Human Resources Specialist",
+    department: "Human Resources",
+    family: "fiscal",
+    photo: "photos/tamika-pearson.jpg",
+    pull: "I strive to make every interaction meaningful."
+  },
+  {
+    name: "Fahmy El-Dabh",
+    title: "Support Officer",
+    department: "Job & Family Services",
+    family: "hhs",
+    photo: "photos/fahmy-eldabh.jpg",
+    pull: "I try to show callers that we care."
+  },
+  {
+    name: "Amethyst Brigham",
+    title: "Training Specialist",
+    department: "Human Resources",
+    family: "fiscal",
+    photo: "photos/amethyst-brigham.jpg",
+    pull: "Helping our people grow into their best work."
+  },
+  {
+    name: "Ronald Knight & Eriser Gonzalez",
+    title: "Public Works Team",
+    department: "Public Works",
+    family: "works",
+    photo: "photos/knight-gonzalez.jpg",
+    pull: "Keeping the county running, side by side."
+  },
+  {
+    name: "Kiki Compau",
+    title: "Development Housing Specialist",
+    department: "Housing & Community Development",
+    family: "dev",
+    photo: "photos/kiki-compau.jpg",
+    pull: "Being part of that mission reminds me daily why public service matters."
+  },
+  {
+    name: "Meighan Hayden",
+    title: "Parking Services",
+    department: "Public Works",
+    family: "works",
+    photo: "photos/meighan-hayden.jpg",
+    pull: "The best job in the county, hands down."
+  }
+];
+
+/* ------------------------------------------------------------ utilities -- */
+
+const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const esc = (s) =>
+  String(s).replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])
+  );
+
+const initials = (name) =>
+  name
+    .replace(/,.*$/, "")
+    .split(/\s+/)
+    .filter((w) => /^[A-Za-z]/.test(w) && w.length > 1)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join("");
+
+/* Placeholder portrait: initials on the family colour. Keeps the grid honest
+   about spacing and crop while real headshots are still being cleared. */
+function placeholder(person) {
+  const color = FAMILIES[person.family].color;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+    <rect width="400" height="500" fill="${color}"/>
+    <rect width="400" height="500" fill="#00304C" opacity="0.18"/>
+    <text x="200" y="200" text-anchor="middle" fill="#ffffff" opacity="0.92"
+      font-family="Open Sans, Arial, sans-serif" font-size="128" font-weight="300"
+      letter-spacing="6">${initials(person.name)}</text>
+    <text x="200" y="252" text-anchor="middle" fill="#ffffff" opacity="0.7"
+      font-family="Open Sans, Arial, sans-serif" font-size="20" font-weight="600"
+      letter-spacing="4">PHOTO PENDING</text>
+  </svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+
+const grid = document.getElementById("grid");
+const countEl = document.getElementById("count");
+const bar = document.querySelector(".filters-inner");
+let active = "all";
+
+/* --------------------------------------------------------------- render -- */
+
+function cardMarkup(person) {
+  const src = person.photo || placeholder(person);
+  const alt = person.photo
+    ? `${person.name}, ${person.title}, Cuyahoga County ${person.department}`
+    : "";
+  return `
+    <article class="card" data-family="${person.family}">
+      <div class="photo">
+        <div class="photo-zoom">
+          <img src="${esc(src)}" alt="${esc(alt)}"${
+            person.objectPosition ? ` style="object-position:${esc(person.objectPosition)}"` : ""
+          } loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="card-body">
+        <span class="dept"><span class="dot"></span>${esc(person.department)}</span>
+        <h3>${esc(person.name)}</h3>
+        <p class="title">${esc(person.title)}</p>
+      </div>
+    </article>`;
+}
+
+function render(animate) {
+  const shown = PEOPLE.filter((p) => active === "all" || p.family === active);
+
+  const paint = () => {
+    grid.innerHTML = shown.map(cardMarkup).join("");
+    setCount(shown.length, PEOPLE.length);
+    reveal();
+    measure();
+  };
+
+  if (!animate || REDUCED) return paint();
+
+  // Outgoing cards drop away together, then the new set staggers back in.
+  grid.classList.add("is-swapping");
+  setTimeout(() => {
+    paint();
+    grid.classList.remove("is-swapping");
+  }, 190);
+}
+
+/* Scroll reveal, staggered across each row. */
+function reveal() {
+  const cards = [...grid.querySelectorAll(".card")];
+  const settle = (c) => {
+    c.classList.add("is-in");
+    // Clear the entrance delay once a card has arrived, so the hover lift
+    // responds immediately instead of waiting out its stagger offset.
+    setTimeout(() => c.classList.add("is-settled"), 700);
+  };
+  if (!("IntersectionObserver" in window)) return cards.forEach(settle);
+
+  const io = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const i = cards.indexOf(entry.target);
+        entry.target.style.setProperty("--stagger", `${(i % 3) * 90}ms`);
+        settle(entry.target);
+        obs.unobserve(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+  );
+  cards.forEach((c) => io.observe(c));
+}
+
+/* --------------------------------------------------------- count ticker -- */
+
+let countShown = 0;
+function setCount(n, total) {
+  if (!countEl) return;
+  const suffix = n === total ? " employees" : ` of ${total} employees`;
+  const from = countShown;
+  countShown = n;
+  if (REDUCED || from === n) {
+    countEl.textContent = n + suffix;
+    return;
+  }
+  const t0 = performance.now();
+  const step = (now) => {
+    const t = Math.min(1, (now - t0) / 320);
+    const eased = 1 - Math.pow(1 - t, 3);
+    countEl.textContent = Math.round(from + (n - from) * eased) + suffix;
+    if (t < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+/* ------------------------------------------------------- scroll motion -- */
+
+/* Photos drift slowly within their frame as a card crosses the viewport.
+   This is the main piece of movement on touch devices, where hover never
+   fires. A few pixels only — enough to feel alive, not enough to read as a
+   gimmick on a government site. */
+const DRIFT = 16;
+let tracked = [];
+let ticking = false;
+
+function measure() {
+  tracked = [...grid.querySelectorAll(".photo")].map((el) => ({
+    el,
+    img: el.querySelector("img")
+  }));
+  onScroll();
+}
+
+function onScroll() {
+  if (REDUCED || ticking) return;
+  ticking = true;
+  requestAnimationFrame(() => {
+    const vh = window.innerHeight;
+    for (const { el, img } of tracked) {
+      const r = el.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) continue;
+      // -1 entering from below, +1 leaving at the top
+      const raw = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
+      const progress = Math.max(-1, Math.min(1, raw));
+      img.style.transform = `translate3d(0, ${(progress * DRIFT).toFixed(2)}px, 0)`;
+    }
+    ticking = false;
+  });
+}
+
+window.addEventListener("scroll", onScroll, { passive: true });
+window.addEventListener("resize", () => {
+  measure();
+}, { passive: true });
+
+/* ----------------------------------------------------------------- init -- */
+
+render();
+requestAnimationFrame(() => {
+  document.body.classList.add("ready");
+});
+
+</script>
+</body>
+</html>
