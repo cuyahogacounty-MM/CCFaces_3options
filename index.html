@@ -3,115 +3,276 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Faces of Cuyahoga County — Concepts</title>
+<title>How hiring works — Cuyahoga County</title>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --orient:#005587;--fun-green:#00843D;--persian-red:#CB2C30;--flush-orange:#FF8200;
-  --prussian-blue:#00304C;--white:#fff;--ink:#16232B;--ink-soft:#54636E;--rule:#DCE3E8;--wash:#F2F5F7;
-  --font:"Open Sans",Arial,sans-serif;--ease:cubic-bezier(.22,.61,.36,1);
+  --orient:#005587; --fun-green:#00843D; --persian-red:#CB2C30; --flush-orange:#FF8200;
+  --prussian-blue:#00304C; --white:#fff;
+  --ink:#16232B; --ink-soft:#54636E; --rule:#D3DCE3; --wash:#F4F7F9;
+  --font:"Open Sans",Arial,sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;}
-body{margin:0;font-family:var(--font);color:var(--ink);background:var(--wash);line-height:1.55;-webkit-font-smoothing:antialiased;}
-.hero{background:var(--prussian-blue);color:var(--white);padding:clamp(40px,7vw,80px) clamp(20px,5vw,64px) clamp(34px,5vw,56px);}
-.band{display:flex;height:6px;width:220px;margin-bottom:24px;border-radius:1px;overflow:hidden;}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--white);line-height:1.5;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:940px;margin:0 auto;padding:clamp(28px,5vw,60px) clamp(16px,4vw,48px);}
+.intro{margin-bottom:clamp(20px,3vw,34px);}
+.band{display:flex;height:6px;width:200px;margin-bottom:22px;border-radius:1px;overflow:hidden;}
 .band span{flex:1;}
 .band span:nth-child(1){background:var(--orient);}.band span:nth-child(2){background:var(--fun-green);}
 .band span:nth-child(3){background:var(--flush-orange);}.band span:nth-child(4){background:var(--persian-red);}
-.hero h1{margin:0 0 12px;font-size:clamp(2rem,6vw,3.4rem);font-weight:800;letter-spacing:-.025em;line-height:1.02;}
-.hero p{margin:0;max-width:56ch;font-weight:300;font-size:clamp(1.05rem,2.2vw,1.25rem);color:#CFE0EA;}
-.wrap{max-width:1180px;margin:0 auto;padding:clamp(32px,5vw,56px) clamp(20px,4vw,48px);}
-.grid{display:grid;gap:20px;grid-template-columns:1fr;}
-@media(min-width:680px){.grid{grid-template-columns:1fr 1fr;}}
-@media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr);}}
-.opt{display:flex;flex-direction:column;background:var(--white);border:2px solid var(--rule);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .2s var(--ease),border-color .2s var(--ease),box-shadow .2s var(--ease);}
-.opt:hover{transform:translateY(-4px);border-color:var(--prussian-blue);box-shadow:0 20px 40px -24px rgba(0,48,76,.5);}
-.opt .top{height:8px;display:flex;}
-.opt .top span{flex:1;}
-.opt .top span:nth-child(1){background:var(--orient);}.opt .top span:nth-child(2){background:var(--fun-green);}
-.opt .top span:nth-child(3){background:var(--flush-orange);}.opt .top span:nth-child(4){background:var(--persian-red);}
-.opt .body{padding:clamp(22px,3vw,30px);flex:1;display:flex;flex-direction:column;}
-.opt .k{font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--flush-orange);}
-.opt h2{margin:8px 0 10px;font-size:clamp(1.35rem,2.6vw,1.7rem);font-weight:800;letter-spacing:-.015em;}
-.opt p{margin:0 0 18px;color:var(--ink-soft);font-weight:300;font-size:.98rem;}
-.opt .feat{margin:0 0 22px;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px;}
-.opt .feat li{font-size:.9rem;color:var(--ink);display:flex;align-items:flex-start;gap:9px;}
-.opt .feat li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--fun-green);margin-top:7px;flex:0 0 auto;}
-.opt .go{margin-top:auto;display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--prussian-blue);}
-.opt .go svg{transition:transform .2s var(--ease);}
-.opt:hover .go svg{transform:translateX(4px);}
-.extra{margin-top:24px;background:var(--white);border:2px solid var(--rule);border-radius:14px;padding:20px 24px;}
-.extra a{color:var(--orient);font-weight:700;text-decoration:none;}
-.extra a:hover{text-decoration:underline;}
-.note{margin-top:20px;color:var(--ink-soft);font-size:.9rem;font-weight:300;}
+h1{margin:0 0 10px;font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:800;letter-spacing:-.02em;line-height:1.05;}
+.intro p{margin:0;max-width:58ch;color:var(--ink-soft);font-weight:300;font-size:clamp(1rem,2vw,1.1rem);}
+
+.diagram{position:relative;width:100%;}
+svg{width:100%;height:auto;display:block;overflow:visible;}
+
+/* boxes are foreignObject-free: drawn as SVG rect + text for crisp scaling */
+.box-rect{fill:var(--white);stroke:var(--rule);stroke-width:2;transition:stroke .45s ease, fill .45s ease;}
+.box-rect.start{fill:var(--wash);}
+.box-rect.branch{fill:var(--prussian-blue);stroke:var(--prussian-blue);}
+.box-label{font-family:var(--font);font-weight:700;fill:var(--ink);}
+.box-label.on-dark{fill:#fff;}
+.box-sub{font-family:var(--font);font-weight:300;fill:var(--ink-soft);}
+.box-sub.on-dark{fill:#CBD9E2;}
+
+/* lit state: box glows in its path colour when the dot arrives */
+.node{--lit:var(--prussian-blue);}
+.node.classified{--lit:var(--orient);}
+.node.unclassified{--lit:var(--flush-orange);}
+.node .box-rect{}
+.node.active .box-rect{stroke:var(--lit);stroke-width:3;filter:drop-shadow(0 6px 16px color-mix(in srgb,var(--lit) 40%,transparent));}
+.node.active .halo{opacity:1;}
+.halo{fill:none;stroke:var(--lit);stroke-width:2;opacity:0;transition:opacity .4s ease;}
+
+/* connectors */
+.link{fill:none;stroke:var(--rule);stroke-width:2.5;}
+.link.classified{stroke:color-mix(in srgb,var(--orient) 34%,var(--rule));}
+.link.unclassified{stroke:color-mix(in srgb,var(--flush-orange) 34%,var(--rule));}
+/* the travelling highlight is a dash drawn over each link */
+.trace{fill:none;stroke-width:3.5;stroke-linecap:round;}
+
+.legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:22px;font-size:.85rem;color:var(--ink-soft);}
+.legend span{display:inline-flex;align-items:center;gap:8px;font-weight:600;}
+.legend i{width:12px;height:12px;border-radius:50%;display:inline-block;}
+.legend .c{background:var(--orient);}.legend .u{background:var(--flush-orange);}
+
+@media (prefers-reduced-motion:reduce){
+  .glow-dot,.trace{display:none!important;}
+  .node .box-rect{stroke:var(--lit);}   /* show all lit if motion is off */
+}
 </style>
 </head>
 <body>
-<header class="hero">
-  <div class="band" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-  <h1>Faces of Cuyahoga County</h1>
-  <p>An employee profile section for the new HR website. Three design directions to compare — open each and see which feels right.</p>
-</header>
-
 <div class="wrap">
-  <div class="grid">
-    <a class="opt" href="full.html">
-      <div class="top" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-      <div class="body">
-        <div class="k">Option 1</div>
-        <h2>Full</h2>
-        <p>The complete concept: a large branded header, an intro line, and filters so visitors can browse employees by department.</p>
-        <ul class="feat">
-          <li>Big "Faces of Cuyahoga" hero with intro text</li>
-          <li>Filter chips for each job group</li>
-          <li>A short quote on every card</li>
-        </ul>
-        <span class="go">View Option 1
-          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M10 1l5 5-5 5M15 6H1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
-      </div>
-    </a>
-
-    <a class="opt" href="simple.html">
-      <div class="top" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-      <div class="body">
-        <div class="k">Option 2</div>
-        <h2>Simple</h2>
-        <p>A streamlined version meant to sit lower on a page: a slim banner, just the photos and names, and a hiring call-to-action at the end.</p>
-        <ul class="feat">
-          <li>Thin header — fits below other content</li>
-          <li>No filters, no quotes: photos and names only</li>
-          <li>"Your face could be here" careers prompt</li>
-        </ul>
-        <span class="go">View Option 2
-          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M10 1l5 5-5 5M15 6H1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
-      </div>
-    </a>
-
-    <a class="opt" href="roster.html">
-      <div class="top" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-      <div class="body">
-        <div class="k">Option 3</div>
-        <h2>Roster</h2>
-        <p>A big spotlight photo beside a browsable list of everyone, grouped by department. Pick a name and their photo and quote take over the stage.</p>
-        <ul class="feat">
-          <li>Large spotlight photo, one person at a time</li>
-          <li>Full name list on the right, grouped by department</li>
-          <li>Ends with a careers call-to-action</li>
-        </ul>
-        <span class="go">View Option 3
-          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M10 1l5 5-5 5M15 6H1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
-      </div>
-    </a>
+  <div class="intro">
+    <div class="band" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <h1>How hiring works at Cuyahoga County</h1>
+    <p>Follow an application from apply to offer. Classified and Unclassified jobs take different early steps, then rejoin.</p>
   </div>
 
-  <div class="extra">
-    Also in progress: an animated <a href="hiring/">hiring-process graphic</a> that shows applicants how county hiring works, from apply to offer.
-  </div>
+  <div class="diagram" id="diagram"></div>
 
-  <p class="note">Prototype for review. Content and photos are current but not final; the live site will be built in the county's CMS.</p>
+  <div class="legend" aria-hidden="true">
+    <span><i class="c"></i>Classified path</span>
+    <span><i class="u"></i>Unclassified path</span>
+  </div>
 </div>
+
+<script>
+/* ---- flow definition (swap text here) ---- */
+const NODES = {
+  apply:   {label:"Apply", kind:"start"},
+  branch:  {label:"What kind of job did you apply to?", kind:"branch"},
+  classified:  {label:"Classified", sub:"Civil service roles", path:"classified"},
+  unclassified:{label:"Unclassified", sub:"Appointed / at-will", path:"unclassified"},
+  prc:     {label:"Personnel Review Commission", path:"classified"},
+  screen:  {label:"Applications screened", path:"classified"},
+  elig:    {label:"Eligibility list", path:"classified"},
+  hr:      {label:"Screening by HR + department", path:"unclassified"},
+  interview:{label:"Interview"},
+  selection:{label:"Selection"},
+  offer:   {label:"Offer, background, onboarding"},
+};
+
+/* layout grid (viewBox units) */
+const W = 900;
+const BOX_H = 62, R = 12;
+const colL = 250, colR = 650;        // centres of the two path columns
+const mid = W/2;
+
+/* y positions */
+const Y = {
+  apply:40, branch:150, paths:260, step1:370, step2:480, step3:590,
+  interview:700, selection:810, offer:920
+};
+const H = 1010;
+
+/* box widths */
+const wide = 520, med = 300, narrow = 330;
+
+/* node geometry: {x centre, y top, w} */
+const G = {
+  apply:      {x:mid, y:Y.apply,  w:med,  node:"apply"},
+  branch:     {x:mid, y:Y.branch, w:wide, node:"branch"},
+  classified: {x:colL,y:Y.paths,  w:med,  node:"classified"},
+  unclassified:{x:colR,y:Y.paths, w:med,  node:"unclassified"},
+  prc:        {x:colL,y:Y.step1,  w:narrow,node:"prc"},
+  screen:     {x:colL,y:Y.step2,  w:narrow,node:"screen"},
+  elig:       {x:colL,y:Y.step3,  w:narrow,node:"elig"},
+  hr:         {x:colR,y:Y.step1,  w:narrow,node:"hr"},
+  interview:  {x:mid, y:Y.interview,w:med, node:"interview"},
+  selection:  {x:mid, y:Y.selection,w:med, node:"selection"},
+  offer:      {x:mid, y:Y.offer,  w:wide, node:"offer"},
+};
+
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+
+function boxSVG(key){
+  const g=G[key], n=NODES[key];
+  const x=g.x-g.w/2, y=g.y;
+  const dark = n.kind==="branch";
+  const cls = n.path||"";
+  const rectClass = "box-rect "+(n.kind||"");
+  const hasSub = !!n.sub;
+  const labelY = hasSub ? g.y+BOX_H/2-6 : g.y+BOX_H/2+1;
+  return `
+  <g class="node ${cls}" data-key="${key}">
+    <rect class="halo" x="${x-5}" y="${y-5}" width="${g.w+10}" height="${BOX_H+10}" rx="${R+3}"/>
+    <rect class="${rectClass}" x="${x}" y="${y}" width="${g.w}" height="${BOX_H}" rx="${R}"/>
+    <text class="box-label ${dark?'on-dark':''}" x="${g.x}" y="${labelY}" text-anchor="middle" dominant-baseline="middle" font-size="${g.w>420?20:17}">${esc(n.label)}</text>
+    ${hasSub?`<text class="box-sub ${dark?'on-dark':''}" x="${g.x}" y="${g.y+BOX_H/2+14}" text-anchor="middle" font-size="12.5">${esc(n.sub)}</text>`:""}
+  </g>`;
+}
+
+/* connector path builders (return SVG path 'd') */
+function vLink(aKey,bKey){ // straight vertical between two stacked boxes
+  const a=G[aKey], b=G[bKey];
+  const x=a.x, y1=a.y+BOX_H, y2=b.y;
+  return `M ${x} ${y1} L ${x} ${y2}`;
+}
+function branchLink(toKey){ // from branch box down+across into a column head
+  const from=G.branch, to=G[toKey];
+  const y1=from.y+BOX_H, ymid=(y1+to.y)/2, x2=to.x, y2=to.y;
+  return `M ${from.x} ${y1} L ${from.x} ${ymid} L ${x2} ${ymid} L ${x2} ${y2}`;
+}
+function mergeLink(fromKey){ // from a column's last box down+across into interview
+  const from=G[fromKey], to=G.interview;
+  const y1=from.y+BOX_H, ymid=(y1+to.y)/2, x2=to.x, y2=to.y;
+  return `M ${from.x} ${y1} L ${from.x} ${ymid} L ${x2} ${ymid} L ${x2} ${y2}`;
+}
+
+/* ordered link list with path class + the sequence the dot follows */
+const LINKS = [
+  {d:vLink("apply","branch"),           cls:"", seq:0},
+  {d:branchLink("classified"),          cls:"classified", seq:1},
+  {d:branchLink("unclassified"),        cls:"unclassified", seq:1},
+  {d:vLink("classified","prc"),         cls:"classified", seq:2},
+  {d:vLink("prc","screen"),             cls:"classified", seq:3},
+  {d:vLink("screen","elig"),            cls:"classified", seq:4},
+  {d:vLink("unclassified","hr"),        cls:"unclassified", seq:2},
+  {d:mergeLink("elig"),                 cls:"classified", seq:5},
+  {d:mergeLink("hr"),                   cls:"unclassified", seq:5},
+  {d:vLink("interview","selection"),    cls:"", seq:6},
+  {d:vLink("selection","offer"),        cls:"", seq:7},
+];
+
+/* build SVG */
+const svg = `
+<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Hiring process flow chart from Apply to Offer">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 1 L8 5 L0 9" fill="none" stroke="var(--rule)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <g id="links">
+    ${LINKS.map((l,i)=>`<path class="link ${l.cls}" d="${l.d}" marker-end="url(#arrow)" data-i="${i}"/>`).join("")}
+  </g>
+  <g id="traces">
+    ${LINKS.map((l,i)=>`<path class="trace ${l.cls}" d="${l.d}" data-i="${i}"
+        stroke="${l.cls==='classified'?'var(--orient)':l.cls==='unclassified'?'var(--flush-orange)':'var(--prussian-blue)'}"/>`).join("")}
+  </g>
+  <g id="boxes">
+    ${Object.keys(G).map(boxSVG).join("")}
+  </g>
+  <circle id="dot" class="glow-dot" r="7" fill="#fff" stroke="var(--prussian-blue)" stroke-width="3" opacity="0"/>
+</svg>`;
+document.getElementById("diagram").innerHTML = svg;
+
+/* ---- animation: dot traces links in sequence, boxes light on arrival ---- */
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const dot = document.getElementById("dot");
+const traceEls = [...document.querySelectorAll(".trace")];
+const nodeEls = Object.fromEntries([...document.querySelectorAll(".node")].map(n=>[n.dataset.key,n]));
+
+// prep traces as hidden dashes
+traceEls.forEach(t=>{ const L=t.getTotalLength(); t.style.strokeDasharray=L; t.style.strokeDashoffset=L; });
+
+// map: which box lights when a given seq starts
+const SEQ = [
+  {links:[0], light:["apply"]},
+  {links:[1,2], light:["branch","classified","unclassified"]},
+  {links:[3,6], light:["prc","hr"]},
+  {links:[4], light:["screen"]},
+  {links:[5], light:["elig"]},
+  {links:[7,8], light:["interview"]},
+  {links:[9], light:["selection"]},
+  {links:[10], light:["offer"]},
+];
+
+function lenOf(i){ return traceEls[i].getTotalLength(); }
+function ptOf(i,t){ return traceEls[i].getPointAtLength(lenOf(i)*t); }
+
+let raf, tStart;
+const STEP_MS = 620;     // per sequence
+const HOLD_MS = 260;     // pause between
+const totalSteps = SEQ.length;
+
+function reset(){
+  Object.values(nodeEls).forEach(n=>n.classList.remove("active"));
+  traceEls.forEach(t=>{ const L=t.getTotalLength(); t.style.strokeDashoffset=L; });
+  dot.setAttribute("opacity","0");
+}
+
+function playStep(si, done){
+  const step = SEQ[si];
+  step.light.forEach(k=>nodeEls[k]&&nodeEls[k].classList.add("active"));
+  const start = performance.now();
+  dot.setAttribute("opacity","1");
+  function frame(now){
+    const p = Math.min(1,(now-start)/STEP_MS);
+    const eased = p<.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2;
+    step.links.forEach(li=>{
+      const L=lenOf(li);
+      traceEls[li].style.strokeDashoffset = L*(1-eased);
+    });
+    // move the dot along the primary link of this step
+    const primary = step.links[0];
+    const pt = ptOf(primary, eased);
+    dot.setAttribute("cx",pt.x); dot.setAttribute("cy",pt.y);
+    if(p<1){ raf=requestAnimationFrame(frame); }
+    else { setTimeout(done, HOLD_MS); }
+  }
+  raf=requestAnimationFrame(frame);
+}
+
+function runLoop(si=0){
+  if(si>=totalSteps){
+    dot.setAttribute("opacity","0");
+    setTimeout(()=>{ reset(); runLoop(0); }, 900);   // pause then loop
+    return;
+  }
+  playStep(si, ()=>runLoop(si+1));
+}
+
+let started=false;
+function begin(){
+  if(started||REDUCED) return; started=true; reset(); runLoop(0);
+}
+// start when scrolled into view; loops continuously thereafter
+if("IntersectionObserver" in window && !REDUCED){
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{ if(e.isIntersecting) begin(); })},{threshold:.3});
+  io.observe(document.getElementById("diagram"));
+}else if(!REDUCED){ begin(); }
+</script>
 </body>
 </html>

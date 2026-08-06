@@ -17,6 +17,7 @@ hiring/index.html   The animated hiring-process flow chart
 README.md           This file
 DEPLOY.md           How to publish it on GitHub Pages
 CONTENT.md          How to edit people, photos, and text
+ACCESSIBILITY.md    WCAG 2.1 AA checklist for the production build + launch
 ```
 
 ## Three options to compare
@@ -49,6 +50,35 @@ See **DEPLOY.md** for step-by-step publishing. Short version: in the repo's
 landing page appears at `https://YOURNAME.github.io/REPO-NAME/`, the three
 options at `.../full.html`, `.../simple.html`, and `.../roster.html`, and the
 hiring graphic at `.../hiring/`.
+
+## Accessibility
+
+These pages target **WCAG 2.1 Level AA**, the standard for government sites
+under ADA Title II and Section 508. All five pages (landing, the three
+options, and the hiring graphic) pass an automated axe-core WCAG 2.1 A/AA
+audit with zero violations, and were checked manually for the things
+automated tools can't catch:
+
+- **Images** — every employee photo has descriptive alt text (name, title,
+  department). Decorative thumbnails in the Roster use empty alt so screen
+  readers skip them, since the name sits beside them as real text.
+- **Colour contrast** — all text meets the 4.5:1 minimum. The bright brand
+  orange (`#FF8200`) is kept for buttons and graphics, but text on it uses
+  navy, and orange text labels use the county's text-safe brown (`#9B5000`),
+  because bright orange alone fails contrast for text.
+- **Headings** — logical order (h1, then h2, then h3), so screen-reader users
+  can navigate by structure.
+- **Keyboard** — every control is reachable by Tab and shows a visible focus
+  outline. The Roster name list also supports arrow-key navigation.
+- **Motion** — all animation is disabled automatically for anyone with
+  "reduce motion" turned on in their OS.
+- **Language and titles** — each page declares `lang="en"` and has a unique,
+  descriptive `<title>`.
+
+When adding people or editing content, keep alt text descriptive and avoid
+using bright orange or other light colours for text (see the contrast note
+above). **See `ACCESSIBILITY.md` for the full WCAG 2.1 AA checklist** to carry
+through the Sitefinity build and verify before launch.
 
 ## Design notes
 
